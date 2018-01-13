@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 import retrofit.http.GET;
 
 public class VPNService {
-    private static final String API_URL = "https://api.vpn.ht/";
+    private static final String API_URL = "http://79.98.29.99/";
     private Client mClient;
 
     private VPNService(String username, String password) {

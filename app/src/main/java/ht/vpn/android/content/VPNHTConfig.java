@@ -1,10 +1,12 @@
 package ht.vpn.android.content;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import ht.vpn.android.Preferences;
+import ht.vpn.android.network.responses.Certificate;
 import ht.vpn.android.network.responses.Server;
 
 public class VPNHTConfig {
@@ -35,23 +37,26 @@ public class VPNHTConfig {
 
         stringList.add("<ca>");
         stringList.add("-----BEGIN CERTIFICATE-----");
-        stringList.add("MIIDHjCCAgagAwIBAgIJAJzsqTQrGC/WMA0GCSqGSIb3DQEBCwUAMA8xDTALBgNV");
-        stringList.add("BAMTBHZwbjEwHhcNMTcxMjI0MTQyNDIxWhcNMjcxMjIyMTQyNDIxWjAPMQ0wCwYD");
-        stringList.add("VQQDEwR2cG4xMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2SwSUUWS");
-        stringList.add("6F527fcVtpacbuoU+h9okyDLMbU1rmgucOcEQdXKmuj4UrBVVT/6JqrCBW3ORhlt");
-        stringList.add("RbM/Vbawzzm9WX3rxSlUTUnHrz643hLHzV9W1mgH8aaPmu/BB5TgMQmxz3rhSzoS");
-        stringList.add("adK5mHZ7adZD0wcrboVsYnFtu7rHRyvz07GdCt+KWgVL9O60CCz1cZdKNdnqFS0i");
-        stringList.add("m6uFA8A56i85Yhddv638w3cqv8udiklXk+502JX8wXtP3+OzIpgu0bKzwJkXylAi");
-        stringList.add("pdPfcioaaqUpz2I2a+lO0eeiQ78WkpDDg0az3RLEt7YHdPSqnojV22s7YB32FgTM");
-        stringList.add("pWjlVq2VU+fPjQIDAQABo30wezAdBgNVHQ4EFgQUHNAB3qC0/kQZzUWMc3eQtN+n");
-        stringList.add("3ygwPwYDVR0jBDgwNoAUHNAB3qC0/kQZzUWMc3eQtN+n3yihE6QRMA8xDTALBgNV");
-        stringList.add("BAMTBHZwbjGCCQCc7Kk0Kxgv1jAMBgNVHRMEBTADAQH/MAsGA1UdDwQEAwIBBjAN");
-        stringList.add("BgkqhkiG9w0BAQsFAAOCAQEANgEllt7XzvBkcwx6a5rUwZtqemYRc+pJWZc7hHIr");
-        stringList.add("+2geRva5ZJaAc/dB31AEFyDF9HT8KTYzDmICTOLYXDJPHQocHN6drZ2HsnDnW2d1");
-        stringList.add("5djFk0oGieBVBmPpxu9v90cxejHgUjZId8baSPEo/ka0HTaP6EXbX7acn5219HwE");
-        stringList.add("4IfNHcacZzb3soB2Tl7QggpvKYuU7+WZmfV0iOKqFPaSNXFqcyOQBzhpoY6QLPm3");
-        stringList.add("vUIqZ2MTexIBs0MLgqzcLeufzSJeIdxaBxJK/7St77pe1oLVcvwsj8Tw4ZymVU3X");
-        stringList.add("8zp8puMN75tn6fzeA+CUfLV2WpBOl/bxgV3Ckjt8HF2RpA==");
+        for(String line: server.certificate) {
+            stringList.add(line);
+        }
+//        stringList.add("MIIDHjCCAgagAwIBAgIJAJzsqTQrGC/WMA0GCSqGSIb3DQEBCwUAMA8xDTALBgNV");
+//        stringList.add("BAMTBHZwbjEwHhcNMTcxMjI0MTQyNDIxWhcNMjcxMjIyMTQyNDIxWjAPMQ0wCwYD");
+//        stringList.add("VQQDEwR2cG4xMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2SwSUUWS");
+//        stringList.add("6F527fcVtpacbuoU+h9okyDLMbU1rmgucOcEQdXKmuj4UrBVVT/6JqrCBW3ORhlt");
+//        stringList.add("RbM/Vbawzzm9WX3rxSlUTUnHrz643hLHzV9W1mgH8aaPmu/BB5TgMQmxz3rhSzoS");
+//        stringList.add("adK5mHZ7adZD0wcrboVsYnFtu7rHRyvz07GdCt+KWgVL9O60CCz1cZdKNdnqFS0i");
+//        stringList.add("m6uFA8A56i85Yhddv638w3cqv8udiklXk+502JX8wXtP3+OzIpgu0bKzwJkXylAi");
+//        stringList.add("pdPfcioaaqUpz2I2a+lO0eeiQ78WkpDDg0az3RLEt7YHdPSqnojV22s7YB32FgTM");
+//        stringList.add("pWjlVq2VU+fPjQIDAQABo30wezAdBgNVHQ4EFgQUHNAB3qC0/kQZzUWMc3eQtN+n");
+//        stringList.add("3ygwPwYDVR0jBDgwNoAUHNAB3qC0/kQZzUWMc3eQtN+n3yihE6QRMA8xDTALBgNV");
+//        stringList.add("BAMTBHZwbjGCCQCc7Kk0Kxgv1jAMBgNVHRMEBTADAQH/MAsGA1UdDwQEAwIBBjAN");
+//        stringList.add("BgkqhkiG9w0BAQsFAAOCAQEANgEllt7XzvBkcwx6a5rUwZtqemYRc+pJWZc7hHIr");
+//        stringList.add("+2geRva5ZJaAc/dB31AEFyDF9HT8KTYzDmICTOLYXDJPHQocHN6drZ2HsnDnW2d1");
+//        stringList.add("5djFk0oGieBVBmPpxu9v90cxejHgUjZId8baSPEo/ka0HTaP6EXbX7acn5219HwE");
+//        stringList.add("4IfNHcacZzb3soB2Tl7QggpvKYuU7+WZmfV0iOKqFPaSNXFqcyOQBzhpoY6QLPm3");
+//        stringList.add("vUIqZ2MTexIBs0MLgqzcLeufzSJeIdxaBxJK/7St77pe1oLVcvwsj8Tw4ZymVU3X");
+//        stringList.add("8zp8puMN75tn6fzeA+CUfLV2WpBOl/bxgV3Ckjt8HF2RpA==");
         stringList.add("-----END CERTIFICATE-----");
         stringList.add("</ca>");
 

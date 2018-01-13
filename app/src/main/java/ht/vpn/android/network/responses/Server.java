@@ -3,6 +3,9 @@ package ht.vpn.android.network.responses;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Server {
     @SerializedName("h")
     public String hostname;
@@ -12,6 +15,8 @@ public class Server {
     public String country;
     @SerializedName("cc")
     public String countryCode;
+    @SerializedName("ca")
+    public List<String> certificate;
     @SerializedName("ll")
     public double[] longlat;
 

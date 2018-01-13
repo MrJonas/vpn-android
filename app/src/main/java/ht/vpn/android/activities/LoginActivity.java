@@ -80,7 +80,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @OnClick(R.id.registerButton)
     public void registerClick(View v) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://vpn.ht/signup?_ref=android"));
+        intent.setData(Uri.parse("http://79.98.29.99/register"));
         startActivity(intent);
     }
 
