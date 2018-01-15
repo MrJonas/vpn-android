@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity implements VpnStatus.StateListene
         Preferences.movePreferences(this, Preferences.FILE_NAME);
 
         if(!PrefUtils.contains(this, Preferences.USERNAME) || !PrefUtils.contains(this, Preferences.PASSWORD)) {
-            //startLoginActivity();
+            startLoginActivity();
         }
     }
 

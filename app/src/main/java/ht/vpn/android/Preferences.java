@@ -12,8 +12,8 @@ public class Preferences {
     @Deprecated
     public final static String FILE_NAME = "vpn.ht";
 
-    public final static String USERNAME = "jonas";
-    public final static String PASSWORD = "jonas";
+    public final static String USERNAME = "";
+    public final static String PASSWORD = "";
     public final static String ENC_TYPE = "encryption";
     public final static String KILLSWITCH = "killswitch";
     public final static String RECONNECT_NETCHANGE = "netchangereconnect";

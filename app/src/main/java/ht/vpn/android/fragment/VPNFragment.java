@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,7 +155,9 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
                     VpnProfile profile = configParser.convertProfile();
                     profile.mName = server.country;
                     profile.mUsername = PrefUtils.get(mActivity, Preferences.USERNAME, "");
+                    Log.d("mUSERNAME", profile.mUsername);
                     profile.mPassword = PrefUtils.get(mActivity, Preferences.PASSWORD, "");
+                    Log.d("mPASSWORD", profile.mPassword);
                     profile.mAuthenticationType = VpnProfile.TYPE_USERPASS;
                     ProfileManager.setTemporaryProfile(profile);
 
@@ -255,10 +258,15 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
             if(mActivity == null) return;
 
             if(response != null && response.getStatus() == 200) {
-                mShowsConnected = data.connected;
-                mDetectedCountry = data.country;
+                //mShowsConnected = data.connected;
+                mShowsConnected = false;
+                mDetectedCountry = data.country_name;
+                mShowsConnected = mCurrentVPNState.equals(VpnStatus.ConnectionStatus.LEVEL_CONNECTED);
 
-                if(!mShowsConnected && mCurrentVPNState.equals(VpnStatus.ConnectionStatus.LEVEL_CONNECTED)) {
+                Log.d("mShowsConnected", " " + mShowsConnected);
+                Log.d("mShowsConnected", " " + mCurrentVPNState.equals(VpnStatus.ConnectionStatus.LEVEL_CONNECTED));
+
+                if(!mShowsConnected) {
                     updateIPData();
                     return;
                 }
@@ -272,7 +280,7 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
                         Geocoder coder = new Geocoder(mActivity);
                         List<Address> addressList;
                         if (!data.hasCoordinates()) {
-                            addressList = coder.getFromLocationName("Country: " + data.country, 1);
+                            addressList = coder.getFromLocationName("Country: " + data.country_name, 1);
                         } else {
                             addressList = coder.getFromLocation(data.getLat(), data.getLng(), 1);
                         }
@@ -292,8 +300,8 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
                     }
                 }
 
-                if (location == null && data.country != null) {
-                    Locale locale = new Locale("", data.country);
+                if (location == null && data.country_name != null) {
+                    Locale locale = new Locale("", data.country_name);
                     location = locale.getDisplayCountry();
                 }
 

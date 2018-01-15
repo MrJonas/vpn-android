@@ -17,6 +17,8 @@ public class Server {
     public String countryCode;
     @SerializedName("ca")
     public List<String> certificate;
+    @SerializedName("ta")
+    public List<String> key;
     @SerializedName("ll")
     public double[] longlat;
 

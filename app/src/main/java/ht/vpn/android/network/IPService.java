@@ -5,7 +5,7 @@ import retrofit.RestAdapter;
 import retrofit.http.GET;
 
 public class IPService {
-    private static final String API_URL = "http://myip.ht/";
+    private static final String API_URL = "http://freegeoip.net/";
     private Client mClient;
 
     private IPService() {
@@ -18,15 +18,17 @@ public class IPService {
     }
 
     public interface Client {
-        @GET("/status")
+        @GET("/json")
         void status(Callback<Data> callback);
     }
 
     public class Data {
         public String ip;
-        public String country;
+        public String country_name;
         public double[] coordinates;
         public Boolean connected = false;
+        public double latitude;
+        public double longitude;
         public Object server;
 
         public boolean hasCoordinates() {
@@ -45,14 +47,14 @@ public class IPService {
             return 0;
         }
 
-        public Server getServer() {
-            return (Server) server;
-        }
+//        public Server getServer() {
+//            return (Server) server;
+//        }
 
-        public class Server {
-            public String ip;
-            public String country;
-            public String host;
-        }
+//        public class Server {
+//            public String ip;
+//            public String country;
+//            public String host;
+//        }
     }
 }
