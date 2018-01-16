@@ -21,10 +21,14 @@ public class Server {
     public List<String> key;
     @SerializedName("ll")
     public double[] longlat;
+    @SerializedName("lat")
+    public Double latitude;
+    @SerializedName("lon")
+    public Double longitude;
 
     public LatLng getCoordinates() {
-        if(longlat == null)
+        if(latitude == null ||   longitude  == null)
             return null;
-        return new LatLng(longlat[1], longlat[0]);
+        return new LatLng(latitude, longitude);
     }
 }

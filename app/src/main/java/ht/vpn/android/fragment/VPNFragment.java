@@ -265,39 +265,49 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
 
                 Log.d("mShowsConnected", " " + mShowsConnected);
                 Log.d("mShowsConnected", " " + mCurrentVPNState.equals(VpnStatus.ConnectionStatus.LEVEL_CONNECTED));
-
+                Log.d("mShowsConnectedIP", " " + data.ip);
                 if(!mShowsConnected) {
-                    updateIPData();
-                    return;
+                    //updateIPData();
+                    //return;
                 }
 
                 String location = null;
                 if (mShowsConnected) {
                     mConnectedCard.setVisibility(View.VISIBLE);
+                    if(data.hasCoordinates()) {
+                        mCurrentLocation = new LatLng(data.getLat(), data.getLng());
+                    }
                 } else {
                     mConnectedCard.setVisibility(View.GONE);
-                    try {
-                        Geocoder coder = new Geocoder(mActivity);
-                        List<Address> addressList;
-                        if (!data.hasCoordinates()) {
-                            addressList = coder.getFromLocationName("Country: " + data.country_name, 1);
-                        } else {
-                            addressList = coder.getFromLocation(data.getLat(), data.getLng(), 1);
-                        }
-                        if (addressList != null && addressList.size() > 0) {
-                            Address address = addressList.get(0);
-                            if (address.getLocality() == null) {
-                                location = address.getCountryName();
-                            } else {
-                                location = String.format("%s, %s", address.getLocality(), address.getCountryCode());
-                            }
-
-                            if (address.hasLatitude() && address.hasLongitude())
-                                mCurrentLocation = new LatLng(address.getLatitude(), address.getLongitude());
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if(data.hasCoordinates()) {
+                        mCurrentLocation = new LatLng(data.getLat(), data.getLng());
                     }
+//                    try {
+//                        //Geocoder coder = new Geocoder(mActivity);
+////                        List<Address> addressList;
+////                        if (!data.hasCoordinates()) {
+////                            addressList = coder.getFromLocationName("Country: " + data.country_name, 1);
+////                        } else {
+////                            addressList = coder.getFromLocation(data.getLat(), data.getLng(), 1);
+////                        }
+//                        /*
+//                        if (addressList != null && addressList.size() > 0) {
+//                            Address address = addressList.get(0);
+//                            if (address.getLocality() == null) {
+//                                location = address.getCountryName();
+//                            } else {
+//                                location = String.format("%s, %s", address.getLocality(), address.getCountryCode());
+//                            }
+//
+//                            if (address.hasLatitude() && address.hasLongitude())
+//                                mCurrentLocation = new LatLng(address.getLatitude(), address.getLongitude());
+//                        }*/
+////                        if(data.hasCoordinates()) {
+////                            mCurrentLocation = new LatLng(data.getLat(), data.getLng());
+////                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
                 if (location == null && data.country_name != null) {

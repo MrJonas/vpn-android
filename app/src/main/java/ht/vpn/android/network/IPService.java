@@ -27,23 +27,23 @@ public class IPService {
         public String country_name;
         public double[] coordinates;
         public Boolean connected = false;
-        public double latitude;
-        public double longitude;
+        public Double latitude;
+        public Double longitude;
         public Object server;
 
         public boolean hasCoordinates() {
-            return coordinates != null;
+            return latitude != null && longitude != null;
         }
 
         public double getLat() {
-            if(coordinates != null)
-                return coordinates[0];
+            if(latitude != null)
+                return latitude;
             return 0;
         }
 
         public double getLng() {
-            if(coordinates != null)
-                return coordinates[1];
+            if(longitude != null)
+                return longitude;
             return 0;
         }
 
