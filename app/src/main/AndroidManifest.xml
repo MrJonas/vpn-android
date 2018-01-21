@@ -28,6 +28,11 @@
             android:theme="@style/Theme.VPNht.Login"
             android:screenOrientation="sensorPortrait"
             />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:theme="@style/Theme.VPNht.Login"
+            android:screenOrientation="sensorPortrait"
+            />
         <activity android:name=".activities.PreferencesActivity"
             android:screenOrientation="sensorPortrait" />
         <activity android:name=".activities.LogActivity"

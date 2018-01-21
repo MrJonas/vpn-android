@@ -4,13 +4,17 @@ import android.util.Base64;
 
 import ht.vpn.android.network.responses.ServersResponse;
 import ht.vpn.android.network.responses.SmartDNSResponse;
+import ht.vpn.android.network.responses.Status;
+import ht.vpn.android.network.responses.newUser;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 
 public class VPNService {
-    private static final String API_URL = "http://79.98.29.99/";
+    private static final String API_URL = "http://45.63.74.224/";
     private Client mClient;
 
     private VPNService(String username, String password) {
@@ -43,6 +47,8 @@ public class VPNService {
     public interface Client {
         @GET("/servers")
         void servers(Callback<ServersResponse> callback);
+        @POST("/register")
+        void register(@Body newUser user, Callback<Status> callback);
         @GET("/smartdns")
         void smartdns(Callback<SmartDNSResponse> callback);
     }

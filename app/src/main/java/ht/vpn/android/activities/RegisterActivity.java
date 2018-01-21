@@ -29,7 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends BaseActivity implements Validator.ValidationListener {
+public class RegisterActivity extends BaseActivity implements Validator.ValidationListener {
 
     public static final String PROCEED_TO_MAIN = "return", STATE_USERNAME = "state_username", STATE_PASSWORD = "state_password";
 
@@ -45,7 +45,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_login);
+        super.onCreate(savedInstanceState, R.layout.activity_register);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -73,38 +73,30 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @OnClick(R.id.loginButton)
     public void loginClick(View v) {
-        PrefUtils.save(LoginActivity.this, Preferences.USERNAME, mUsername.getText().toString());
-        PrefUtils.save(LoginActivity.this, Preferences.PASSWORD,  mPassword.getText().toString());
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        newUser nu = new newUser();
+        nu.mail = "android@android.com";
+        nu.username = "android";
+        nu.password = "android";
+        VPNService.get().register(nu, new Callback<Status>() {
+
+            @Override
+            public void success(Status status, Response response) {
+                Log.d("error", " " + status.status );
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("error", " " + error.getLocalizedMessage() );
+                Log.d("error", " " + error.getResponse().getStatus() );
+            }
+        });
     }
 
     @OnClick(R.id.registerButton)
     public void registerClick(View v) {
-        //Intent intent = new Intent(Intent.ACTION_VIEW);
-        //intent.setData(Uri.parse("http://79.98.29.99/register"));
-        //startActivity(intent);
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
-//        newUser nu = new newUser();
-//        nu.mail = "android@android.com";
-//        nu.username = "android";
-//        nu.password = "android";
-//        VPNService.get().register(nu, new Callback<Status>() {
-//
-//            @Override
-//            public void success(Status status, Response response) {
-//                Log.d("error", " " + status.status );
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d("error", " " + error.getLocalizedMessage() );
-//                Log.d("error", " " + error.getResponse().getStatus() );
-//            }
-//        });
     }
 
     @Override
@@ -126,12 +118,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void success(ServersResponse serversResponse, Response response) {
                 LoadingDialogFragment.dismiss(getSupportFragmentManager());
-                PrefUtils.save(LoginActivity.this, Preferences.USERNAME, mUsername.getText().toString());
-                PrefUtils.save(LoginActivity.this, Preferences.PASSWORD, mPassword.getText().toString());
+                PrefUtils.save(RegisterActivity.this, Preferences.USERNAME, mUsername.getText().toString());
+                PrefUtils.save(RegisterActivity.this, Preferences.PASSWORD, mPassword.getText().toString());
 
                 mDoNotSave = true;
                 if (getIntent().getBooleanExtra(PROCEED_TO_MAIN, true)) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -144,7 +136,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             public void failure(RetrofitError error) {
                 LoadingDialogFragment.dismiss(getSupportFragmentManager());
                 if (error != null && error.getResponse() != null && error.getResponse().getStatus() == 401) {
-                    Toast.makeText(LoginActivity.this, R.string.credentials_incorrect, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, R.string.credentials_incorrect, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -178,3 +170,4 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         mPassword.setText(savedInstanceState.getString(STATE_PASSWORD, ""));
     }
 }
+
